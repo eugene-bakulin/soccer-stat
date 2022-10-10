@@ -1,7 +1,7 @@
 import { getLeagues, respLeagues } from "components/controller/FetchLogic";
 import React, { useEffect, useState } from "react";
 import LeagueCard from "./LeagueCard";
-// import LeagueCard from "./LeagueCard";
+import "./leagues.css";
 
 const Leagues: React.FC = () => {
   const [leaguesIsLoaded, setLeaguesLoaded] = useState<respLeagues | null>(
@@ -13,7 +13,7 @@ const Leagues: React.FC = () => {
       const leaguesData = await getLeagues("competitions/");
       setLeaguesLoaded(leaguesData);
     })();
-  });
+  }, []);
 
   return (
     <div className="leagues-container">

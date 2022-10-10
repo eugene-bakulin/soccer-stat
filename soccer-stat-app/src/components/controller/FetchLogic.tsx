@@ -55,6 +55,17 @@ export type LeagueData = {
   lastUpdated: string;
 };
 
+export type leagueCardImg = {
+  emblem: {
+    type: string;
+    body: string;
+  } | null;
+  flag: {
+    type: string;
+    body: string;
+  } | null;
+};
+
 export const getLeagues = async (restUrl: string) => {
   try {
     const resp = await axios.get(`${url + restUrl}`, keyConfig);
@@ -68,3 +79,36 @@ export const getLeagues = async (restUrl: string) => {
     return null;
   }
 };
+
+// export const getLeagueCardImages = async (imageUrl: string) => { // fetching images
+//   try {
+//     console.log(imageUrl);
+//     if (imageUrl) {
+//       if (imageUrl.endsWith(".png")) {
+//         const resp = await axios.get(proxy + imageUrl, {
+//           responseType: "blob",
+//         });
+//         const imgData = await resp.data;
+//         const imgBlob = new Blob([imgData]);
+//         return {
+//           type: "png",
+//           body: URL.createObjectURL(imgBlob),
+//         };
+//       } else {
+//         const resp = await axios.get(proxy + imageUrl, {
+//           responseType: "text",
+//         });
+//         const imgData = await resp.data;
+//         return {
+//           type: "svg",
+//           body: imgData,
+//         };
+//       }
+//     } else {
+//       return null;
+//     }
+//   } catch (e) {
+//     console.error(e);
+//     return null;
+//   }
+// };
