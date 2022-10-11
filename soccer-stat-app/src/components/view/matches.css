@@ -1,0 +1,75 @@
+.matches-container {
+  margin: 1em;
+}
+.matches-breadcrumbs {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.breadcrumbs-leagues-link {
+  text-decoration: none;
+  color: black;
+}
+.breadcrumbs-delimeter {
+  width: 30px;
+  text-align: center;
+}
+.breadcrumbs-current {
+  text-decoration: none;
+  color: black;
+}
+.matches-date-select {
+  display: flex;
+  flex-direction: row;
+  column-gap: 1em;
+  align-items: center;
+}
+.date-select-start {
+  height: 30px;
+  line-height: 30px;
+}
+.date-select-start input {
+  display: inline-block;
+  vertical-align: middle;
+}
+.date-select-end {
+  height: 30px;
+  line-height: 30px;
+}
+.date-select-end input {
+  display: inline-block;
+  vertical-align: middle;
+}
+.set-button-wrapper {
+  height: 18px;
+  line-height: 18px;
+  text-align: center;
+}
+.set-date {
+  display: inline-block;
+  vertical-align: middle;
+}
+.matches-table {
+  font-size: 0.9em;
+  margin-top: 2em;
+  margin-bottom: 2em;
+	width: 100%;
+	border: 1px solid #dddddd;
+	border-collapse: collapse; 
+}
+.matches-table th {
+	font-weight: bold;
+	padding: 5px;
+	background: #efefef;
+	border: 1px solid #dddddd;
+}
+.matches-table td {
+	border: 1px solid #dddddd;
+	padding: 5px;
+}
+.table tbody tr:nth-child(odd){
+	background: #fff;
+}
+.matches-table tbody tr:nth-child(even){
+	background: #F7F7F7;
+}

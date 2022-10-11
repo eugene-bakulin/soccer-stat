@@ -10,7 +10,7 @@ const Leagues: React.FC = () => {
 
   useEffect(() => {
     (async () => {
-      const leaguesData = await getLeagues("competitions/");
+      const leaguesData = await getLeagues();
       setLeaguesLoaded(leaguesData);
     })();
   }, []);

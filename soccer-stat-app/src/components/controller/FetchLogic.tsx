@@ -31,44 +31,106 @@ export type respLeagues = {
   }[];
 };
 
-export type LeagueData = {
-  id: number;
-  area: {
+export type respMatches = {
+  filters: {
+    season: string;
+  };
+  resultSet: {
+    count: number;
+    first: string;
+    last: string;
+    played: number;
+  };
+  competition: {
     id: number;
     name: string;
     code: string;
-    flag: string;
+    type: string;
+    emblem: string;
   };
-  name: string;
-  code: string;
-  type: string;
-  emblem: string;
-  plan: string;
-  currentSeason: {
+  matches: {
+    area: {
+      id: number;
+      name: string;
+      code: string;
+      flag: string;
+    };
+    competition: {
+      id: number;
+      name: string;
+      code: string;
+      type: string;
+      emblem: string;
+    };
+    season: {
+      id: number;
+      startDate: string;
+      endDate: string;
+      currentMatchday: number;
+      winner: null | string;
+    };
     id: number;
-    startDate: string;
-    endDate: string;
-    currentMatchday: number;
-    winner: null | string;
-  };
-  numberOfAvailableSeasons: number;
-  lastUpdated: string;
+    utcDate: string;
+    status:
+      | "SCHEDULED"
+      | "TIMED"
+      | "IN_PLAY"
+      | "PAUSED"
+      | "EXTRA_TIME"
+      | "PENALTY_SHOOTOUT"
+      | "FINISHED"
+      | "SUSPENDED"
+      | "POSTPONED"
+      | "CANCELLED"
+      | "AWARDED";
+    matchday: number;
+    stage: string;
+    group: null | string;
+    lastUpdated: string;
+    homeTeam: {
+      id: number;
+      name: string;
+      shortName: string;
+      tla: string;
+      crest: string;
+    };
+    awayTeam: {
+      id: number;
+      name: string;
+      shortName: string;
+      tla: string;
+      crest: string;
+    };
+    score: {
+      winner: string;
+      duration: "REGULAR" | "EXTRA_TIME" | "PENALTY_SHOOTOUT";
+      fullTime: {
+        home: number;
+        away: number;
+      };
+      regularTime: {
+        home: number | null;
+        away: number | null;
+      };
+      extraTime: {
+        home: number | null;
+        away: number | null;
+      };
+      penalties: {
+        home: number | null;
+        away: number | null;
+      };
+    };
+    odds: {
+      msg: string;
+    };
+    referees: [];
+  }[];
 };
 
-export type leagueCardImg = {
-  emblem: {
-    type: string;
-    body: string;
-  } | null;
-  flag: {
-    type: string;
-    body: string;
-  } | null;
-};
-
-export const getLeagues = async (restUrl: string) => {
+export const getLeagues = async () => {
   try {
-    const resp = await axios.get(`${url + restUrl}`, keyConfig);
+    const resp = await axios.get(url + "competitions/", keyConfig);
     if (resp.status === 200) {
       return (await resp.data) as respLeagues;
     } else {
@@ -80,35 +142,19 @@ export const getLeagues = async (restUrl: string) => {
   }
 };
 
-// export const getLeagueCardImages = async (imageUrl: string) => { // fetching images
-//   try {
-//     console.log(imageUrl);
-//     if (imageUrl) {
-//       if (imageUrl.endsWith(".png")) {
-//         const resp = await axios.get(proxy + imageUrl, {
-//           responseType: "blob",
-//         });
-//         const imgData = await resp.data;
-//         const imgBlob = new Blob([imgData]);
-//         return {
-//           type: "png",
-//           body: URL.createObjectURL(imgBlob),
-//         };
-//       } else {
-//         const resp = await axios.get(proxy + imageUrl, {
-//           responseType: "text",
-//         });
-//         const imgData = await resp.data;
-//         return {
-//           type: "svg",
-//           body: imgData,
-//         };
-//       }
-//     } else {
-//       return null;
-//     }
-//   } catch (e) {
-//     console.error(e);
-//     return null;
-//   }
-// };
+export const getMatches = async (id: number) => {
+  try {
+    const resp = await axios.get(
+      url + "competitions/" + String(id) + "/matches/",
+      keyConfig
+    );
+    if (resp.status === 200) {
+      return (await resp.data) as respMatches;
+    } else {
+      return null; // add handler later!
+    }
+  } catch (e) {
+    console.error(e);
+    return null;
+  }
+};

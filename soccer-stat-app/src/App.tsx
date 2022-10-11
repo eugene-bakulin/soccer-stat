@@ -1,10 +1,14 @@
 import Leagues from "components/view/Leagues";
+import Matches from "components/view/Matches";
 import SearchBar from "components/view/searchBar";
 import React from "react";
 import { Link, Route, Routes } from "react-router-dom";
+import { useAppSelector } from "./store/hooks";
+import { selectMatchId } from "./store/matchID/matchIdSlice";
 import "./App.css";
 
 function App() {
+  const id = useAppSelector(selectMatchId).id;
   return (
     <div className="App">
       <header className="header-container">
@@ -26,6 +30,7 @@ function App() {
       <main>
         <Routes>
           <Route path="/*" element={<Leagues />}></Route>
+          <Route path="/matches" element={<Matches id={id} />}></Route>
         </Routes>
       </main>
     </div>
