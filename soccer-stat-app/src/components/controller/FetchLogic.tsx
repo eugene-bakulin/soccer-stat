@@ -158,3 +158,30 @@ export const getMatches = async (id: number) => {
     return null;
   }
 };
+
+export const getMatchesByDate = async (
+  id: number,
+  dateFrom: string,
+  dateTo: string
+) => {
+  try {
+    const resp = await axios.get(
+      url +
+        "competitions/" +
+        String(id) +
+        "/matches?dateFrom=" +
+        dateFrom +
+        "&dateTo=" +
+        dateTo,
+      keyConfig
+    );
+    if (resp.status === 200) {
+      return (await resp.data) as respMatches;
+    } else {
+      return null; // add handler later!
+    }
+  } catch (e) {
+    console.error(e);
+    return null;
+  }
+};

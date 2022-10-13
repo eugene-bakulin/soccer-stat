@@ -6,9 +6,11 @@ import { Link, Route, Routes } from "react-router-dom";
 import { useAppSelector } from "./store/hooks";
 import { selectMatchId } from "./store/matchID/matchIdSlice";
 import "./App.css";
+import { selectMatchesPage } from "store/pagination/matchesPaginationSlice";
 
 function App() {
   const id = useAppSelector(selectMatchId).id;
+  const page = useAppSelector(selectMatchesPage).page;
   return (
     <div className="App">
       <header className="header-container">
@@ -30,7 +32,10 @@ function App() {
       <main>
         <Routes>
           <Route path="/*" element={<Leagues />}></Route>
-          <Route path="/matches" element={<Matches id={id} />}></Route>
+          <Route
+            path="/matches"
+            element={<Matches id={id} page={page} />}
+          ></Route>
         </Routes>
       </main>
     </div>

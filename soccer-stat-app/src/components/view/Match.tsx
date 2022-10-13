@@ -24,7 +24,7 @@ const Match: React.FC<respMatches["matches"][0]> = (matchInfo) => {
       case "PENALTY_SHOOTOUT":
         return "Пенальти";
       case "TIMED":
-        return "Рассчитан по времени";
+        return "Рассчитан";
       case "AWARDED":
         return "Присуждение";
     }
@@ -93,11 +93,19 @@ const Match: React.FC<respMatches["matches"][0]> = (matchInfo) => {
 
   return (
     <tr>
-      <td width={"80px"}>{date}</td>
-      <td width={"40px"}>{time}</td>
-      <td>{displayStatus()}</td>
-      <td>{matchInfo.homeTeam.name}</td>
-      <td>{matchInfo.awayTeam.name}</td>
+      <td width={"80px"} align="center">
+        {date}
+      </td>
+      <td width={"40px"} align="center">
+        {time}
+      </td>
+      <td align="center">{displayStatus()}</td>
+      <td align="center">
+        {matchInfo.homeTeam.name ? matchInfo.homeTeam.name : "-"}
+      </td>
+      <td align="center">
+        {matchInfo.awayTeam.name ? matchInfo.awayTeam.name : "-"}
+      </td>
       <td align="center">{regularTimeScore()}</td>
       <td align="center">{extraTimeScore()}</td>
       <td align="center">{penaltyScore()}</td>

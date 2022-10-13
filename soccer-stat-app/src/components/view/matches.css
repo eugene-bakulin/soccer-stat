@@ -48,6 +48,11 @@
 .set-date {
   display: inline-block;
   vertical-align: middle;
+  cursor: pointer;
+}
+.matches-content {
+  display: flex;
+  flex-direction: column;
 }
 .matches-table {
   font-size: 0.9em;
@@ -55,7 +60,8 @@
   margin-bottom: 2em;
 	width: 100%;
 	border: 1px solid #dddddd;
-	border-collapse: collapse; 
+	border-collapse: collapse;
+  min-height: max-content;
 }
 .matches-table th {
 	font-weight: bold;
@@ -72,4 +78,29 @@
 }
 .matches-table tbody tr:nth-child(even){
 	background: #F7F7F7;
+}
+.matches-pagination {
+  align-self: center;
+  display: flex;
+  flex-direction: row;
+  column-gap: 1em;
+  user-select: none;
+}
+.pagination-pages {
+  display: flex;
+  flex-direction: row;
+  column-gap: 1em;
+}
+.pagination-page {
+  cursor: pointer;
+}
+.double-arrow {
+  cursor: pointer;
+}
+.arrow {
+  cursor: pointer;
+}
+.disabled {
+  pointer-events: none;
+  opacity: 0.4;
 }
