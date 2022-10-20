@@ -44,3 +44,15 @@
   pointer-events: none;
   opacity: 0.4;
 }
+.footer {
+  height: 100px;
+  background-color: rgb(186, 186, 186);
+}
+
+@media screen and (max-width: 789px) { 
+  .header-container {
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding-bottom: 0;
+  }
+}

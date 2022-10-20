@@ -37,18 +37,21 @@
   align-items: center;
 }
 .league-emblem {
-  width: 50%;
+  width: 80%;
+  min-width: 70px;
 }
 .league-emblem img {
   width: 100%;
 }
 .league-area-flag {
-  width: 50%;
+  width: 80%;
+  min-width: 70px;
 }
 .league-area-flag img {
   width: 100%;
 }
 .leagues-pagination {
+  margin-bottom: 2em;
   align-self: center;
   display: flex;
   flex-direction: row;

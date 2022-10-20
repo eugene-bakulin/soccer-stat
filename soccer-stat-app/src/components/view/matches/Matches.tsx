@@ -15,6 +15,7 @@ import {
   setMatchesFirstPage,
   setMatchesPage,
 } from "../../../store/pagination/matchesPaginationSlice";
+import LoadingSpinner from "../loading/LoadingSpinner";
 
 const Matches: React.FC<{
   teamName: string | null;
@@ -113,7 +114,7 @@ const Matches: React.FC<{
           </div>
         </div>
       )}
-      {initialMatches && (
+      {initialMatches ? (
         <div className="matches-content">
           <table className="matches-table">
             <thead>
@@ -182,6 +183,8 @@ const Matches: React.FC<{
             </div>
           </div>
         </div>
+      ) : (
+        <LoadingSpinner />
       )}
     </div>
   );
