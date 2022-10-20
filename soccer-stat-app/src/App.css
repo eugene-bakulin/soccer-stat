@@ -26,3 +26,21 @@
   text-decoration: none;
   color: black;
 }
+.pagination-pages {
+  display: flex;
+  flex-direction: row;
+  column-gap: 1em;
+}
+.pagination-page {
+  cursor: pointer;
+}
+.double-arrow {
+  cursor: pointer;
+}
+.arrow {
+  cursor: pointer;
+}
+.disabled {
+  pointer-events: none;
+  opacity: 0.4;
+}

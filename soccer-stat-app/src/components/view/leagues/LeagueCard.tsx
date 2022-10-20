@@ -2,13 +2,14 @@ import { respLeagues } from "components/controller/fetch/FetchLogic";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../../store/hooks";
-import { setMatchId } from "../../../store/matchID/matchIdSlice";
+import { setMatchId, setMatchType } from "../../../store/matchID/matchIdSlice";
 
 const LeagueCard: React.FC<respLeagues["competitions"][0]> = (data) => {
   const history = useNavigate();
   const dispatch = useAppDispatch();
   const clickHandler = () => {
     dispatch(setMatchId(data.id));
+    dispatch(setMatchType("league"));
     history("/matches");
   };
   return (

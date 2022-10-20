@@ -6,7 +6,7 @@ import matchesTotalCountReducer from "./pagination/matchesTotalCountSlice";
 export const store = configureStore({
   reducer: {
     matchId: matchIdReducer,
-    matchesPage: matchesPageReducer,
+    paginationPage: matchesPageReducer,
     matchesCount: matchesTotalCountReducer,
   },
 });

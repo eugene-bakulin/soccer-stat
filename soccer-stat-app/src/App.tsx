@@ -6,11 +6,14 @@ import { Link, Route, Routes } from "react-router-dom";
 import { useAppSelector } from "./store/hooks";
 import { selectMatchId } from "./store/matchID/matchIdSlice";
 import "./App.css";
-import { selectMatchesPage } from "store/pagination/matchesPaginationSlice";
+import { selectPage } from "store/pagination/matchesPaginationSlice";
+import Teams from "components/view/teams/Teams";
 
 function App() {
+  const type = useAppSelector(selectMatchId).type;
   const id = useAppSelector(selectMatchId).id;
-  const page = useAppSelector(selectMatchesPage).page;
+  const page = useAppSelector(selectPage).matchesPage;
+  const name = useAppSelector(selectMatchId).teamName;
   return (
     <div className="App">
       <header className="header-container">
@@ -32,9 +35,12 @@ function App() {
       <main>
         <Routes>
           <Route path="/*" element={<Leagues />}></Route>
+          <Route path="/teams" element={<Teams />}></Route>
           <Route
             path="/matches"
-            element={<Matches id={id} page={page} />}
+            element={
+              <Matches teamName={name} type={type} id={id} page={page} />
+            }
           ></Route>
         </Routes>
       </main>

@@ -11,14 +11,19 @@ import Match from "./Match";
 import "./matches.css";
 import PaginationPages from "../pagination/PaginationPages";
 import {
-  selectMatchesPage,
-  setFirstPage,
+  selectPage,
+  setMatchesFirstPage,
   setMatchesPage,
 } from "../../../store/pagination/matchesPaginationSlice";
 
-const Matches: React.FC<{ id: number | null; page: number }> = (props) => {
+const Matches: React.FC<{
+  teamName: string | null;
+  type: "league" | "team" | null;
+  id: number | null;
+  page: number;
+}> = (props) => {
   const dispatch = useAppDispatch();
-  const page = useAppSelector(selectMatchesPage).page;
+  const page = useAppSelector(selectPage).matchesPage;
 
   const [initialMatches, setInitialMatches] = useState<respMatches | null>(
     null
@@ -28,13 +33,15 @@ const Matches: React.FC<{ id: number | null; page: number }> = (props) => {
 
   useEffect(() => {
     (async () => {
-      const matchesData = props.id ? await getMatches(props.id) : null;
+      const matchesData = props.id
+        ? await getMatches(props.type, props.id)
+        : null;
       setInitialMatches(matchesData);
       if (matchesData) {
         setTotalCount(matchesData.resultSet.count);
       }
     })();
-  }, [props.id]);
+  }, [props.id, props.type]);
 
   const setDateClickHandler = async () => {
     const fromDate = (document.getElementById("date-start") as HTMLInputElement)
@@ -43,25 +50,30 @@ const Matches: React.FC<{ id: number | null; page: number }> = (props) => {
       .value;
 
     const matchesData = props.id
-      ? await getMatchesByDate(props.id, fromDate, endDate)
+      ? await getMatchesByDate(props.type, props.id, fromDate, endDate)
       : null;
     setMatchesByDate(matchesData);
     if (matchesData) {
       setTotalCount(matchesData.resultSet.count);
     }
-    dispatch(setFirstPage());
+    dispatch(setMatchesFirstPage());
   };
 
   return (
     <div className="matches-container">
       {initialMatches && (
         <div className="matches-breadcrumbs">
-          <Link className="breadcrumbs-leagues-link" to="/leagues">
-            Лиги
+          <Link
+            className="breadcrumbs-leagues-link"
+            to={props.type === "league" ? "/leagues" : "/teams"}
+          >
+            {props.type === "league" ? "Лиги" : "Команды"}
           </Link>
           <div className="breadcrumbs-delimeter">-</div>
           <Link className="breadcrumbs-current" to="">
-            {initialMatches && initialMatches.competition.name}
+            {props.type === "league"
+              ? initialMatches && initialMatches.competition.name
+              : props.teamName}
           </Link>
         </div>
       )}
@@ -137,7 +149,7 @@ const Matches: React.FC<{ id: number | null; page: number }> = (props) => {
               className={`double-arrow left-double-arrow ${
                 page === 1 && `disabled`
               }`}
-              onClick={() => dispatch(setMatchesPage(1))}
+              onClick={() => dispatch(setMatchesFirstPage())}
             >
               &#8810;
             </div>
@@ -147,7 +159,7 @@ const Matches: React.FC<{ id: number | null; page: number }> = (props) => {
             >
               &#60;
             </div>
-            <PaginationPages respCount={totalCount} />
+            <PaginationPages type={"matches"} respCount={totalCount} />
             <div
               className={`arrow right-arrow ${
                 page === Math.ceil(totalCount / matchesPageLimit) && `disabled`

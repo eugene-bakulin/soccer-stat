@@ -1,21 +1,39 @@
 import {
+  leaguesPageLimit,
   matchesPageLimit,
   pageMaker,
+  teamsPageLimit,
 } from "components/controller/pagination/PaginationLogic";
 import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import {
-  selectMatchesPage,
+  selectPage,
+  setLeaguesPage,
   setMatchesPage,
+  setTeamsPage,
 } from "../../../store/pagination/matchesPaginationSlice";
 
-const PaginationPages: React.FC<{ respCount: number }> = (props) => {
+const PaginationPages: React.FC<{
+  type: "matches" | "leagues" | "teams";
+  respCount: number;
+}> = (props) => {
   const dispatch = useAppDispatch();
-  const page = useAppSelector(selectMatchesPage).page;
+  const pagesFromSelector = useAppSelector(selectPage);
+  const page =
+    props.type === "matches"
+      ? pagesFromSelector.matchesPage
+      : props.type === "leagues"
+      ? pagesFromSelector.leaguesPage
+      : pagesFromSelector.teamsPage;
 
   const createSequence = () => {
     const rest = ["..."];
-    const pagesCount = Math.ceil(props.respCount / matchesPageLimit);
+    const pagesCount =
+      props.type === "matches"
+        ? Math.ceil(props.respCount / matchesPageLimit)
+        : props.type === "leagues"
+        ? Math.ceil(props.respCount / leaguesPageLimit)
+        : Math.ceil(props.respCount / teamsPageLimit);
     const initialNumbers = [];
 
     for (let i = 1; i <= pagesCount; i++) {
@@ -74,7 +92,13 @@ const PaginationPages: React.FC<{ respCount: number }> = (props) => {
           target !== currentTarget &&
           (target as HTMLElement).innerText !== "..."
         ) {
-          dispatch(setMatchesPage(+(target as HTMLElement).innerText));
+          if (props.type === "matches") {
+            dispatch(setMatchesPage(+(target as HTMLElement).innerText));
+          } else if (props.type === "leagues") {
+            dispatch(setLeaguesPage(+(target as HTMLElement).innerText));
+          } else {
+            dispatch(setTeamsPage(+(target as HTMLElement).innerText));
+          }
         }
       });
     }

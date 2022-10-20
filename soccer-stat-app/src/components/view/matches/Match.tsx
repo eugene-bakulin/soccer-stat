@@ -38,6 +38,7 @@ const Match: React.FC<respMatches["matches"][0]> = (matchInfo) => {
         matchInfo.score.duration === "PENALTY_SHOOTOUT"
       ) {
         if (
+          matchInfo.score.regularTime &&
           !Object.is(matchInfo.score.regularTime.home, null) &&
           !Object.is(matchInfo.score.regularTime.away, null)
         ) {

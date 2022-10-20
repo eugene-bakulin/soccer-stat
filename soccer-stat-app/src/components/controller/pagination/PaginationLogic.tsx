@@ -1,6 +1,8 @@
 import React from "react";
 
 export const matchesPageLimit = 15;
+export const leaguesPageLimit = 10;
+export const teamsPageLimit = 9;
 
 export const pageMaker = (numbers: string[], current: number) => {
   return numbers.map((number, index) => (

@@ -3,28 +3,51 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
 interface pageInterface {
-  page: number;
+  matchesPage: number;
+  leaguesPage: number;
+  teamsPage: number;
 }
 
 const initialState: pageInterface = {
-  page: 1,
+  matchesPage: 1,
+  leaguesPage: 1,
+  teamsPage: 1,
 };
 
-export const matchesPageSlice = createSlice({
-  name: "matchesPage",
+export const pageSlice = createSlice({
+  name: "paginationPage",
   initialState,
   reducers: {
     setMatchesPage: (state, action: PayloadAction<number>): void => {
-      state.page = action.payload;
+      state.matchesPage = action.payload;
     },
-    setFirstPage: (state): void => {
-      state.page = 1;
+    setMatchesFirstPage: (state): void => {
+      state.matchesPage = 1;
+    },
+    setLeaguesPage: (state, action: PayloadAction<number>): void => {
+      state.leaguesPage = action.payload;
+    },
+    setLeaguesFirstPage: (state): void => {
+      state.leaguesPage = 1;
+    },
+    setTeamsPage: (state, action: PayloadAction<number>): void => {
+      state.teamsPage = action.payload;
+    },
+    setTeamsFirstPage: (state): void => {
+      state.teamsPage = 1;
     },
   },
 });
 
-export const { setMatchesPage, setFirstPage } = matchesPageSlice.actions;
+export const {
+  setMatchesPage,
+  setMatchesFirstPage,
+  setLeaguesPage,
+  setLeaguesFirstPage,
+  setTeamsPage,
+  setTeamsFirstPage,
+} = pageSlice.actions;
 
-export const selectMatchesPage = (state: RootState) => state.matchesPage;
+export const selectPage = (state: RootState) => state.paginationPage;
 
-export default matchesPageSlice.reducer;
+export default pageSlice.reducer;
