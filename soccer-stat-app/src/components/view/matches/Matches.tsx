@@ -2,19 +2,19 @@ import {
   getMatches,
   getMatchesByDate,
   respMatches,
-} from "components/controller/FetchLogic";
-import { matchesPageLimit } from "components/controller/PaginationLogic";
+} from "components/controller/fetch/FetchLogic";
+import { matchesPageLimit } from "components/controller/pagination/PaginationLogic";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "store/hooks";
 import Match from "./Match";
 import "./matches.css";
-import PaginationPages from "./PaginationPages";
+import PaginationPages from "../pagination/PaginationPages";
 import {
   selectMatchesPage,
   setFirstPage,
   setMatchesPage,
-} from "../../store/pagination/matchesPaginationSlice";
+} from "../../../store/pagination/matchesPaginationSlice";
 
 const Matches: React.FC<{ id: number | null; page: number }> = (props) => {
   const dispatch = useAppDispatch();

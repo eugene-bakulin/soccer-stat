@@ -1,13 +1,13 @@
 import {
   matchesPageLimit,
   pageMaker,
-} from "components/controller/PaginationLogic";
+} from "components/controller/pagination/PaginationLogic";
 import React, { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import {
   selectMatchesPage,
   setMatchesPage,
-} from "../../store/pagination/matchesPaginationSlice";
+} from "../../../store/pagination/matchesPaginationSlice";
 
 const PaginationPages: React.FC<{ respCount: number }> = (props) => {
   const dispatch = useAppDispatch();

@@ -1,6 +1,6 @@
-import Leagues from "components/view/Leagues";
-import Matches from "components/view/Matches";
-import SearchBar from "components/view/searchBar";
+import Leagues from "components/view/leagues/Leagues";
+import Matches from "components/view/matches/Matches";
+import SearchBar from "components/view/search/searchBar";
 import React from "react";
 import { Link, Route, Routes } from "react-router-dom";
 import { useAppSelector } from "./store/hooks";

@@ -1,4 +1,4 @@
-import { respMatches } from "components/controller/FetchLogic";
+import { respMatches } from "components/controller/fetch/FetchLogic";
 import React from "react";
 
 const Match: React.FC<respMatches["matches"][0]> = (matchInfo) => {

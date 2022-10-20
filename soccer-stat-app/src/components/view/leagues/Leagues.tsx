@@ -1,4 +1,7 @@
-import { getLeagues, respLeagues } from "components/controller/FetchLogic";
+import {
+  getLeagues,
+  respLeagues,
+} from "components/controller/fetch/FetchLogic";
 import React, { useEffect, useState } from "react";
 import LeagueCard from "./LeagueCard";
 import "./leagues.css";
