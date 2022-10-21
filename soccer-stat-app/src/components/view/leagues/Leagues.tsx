@@ -5,12 +5,12 @@ import {
 import { leaguesPageLimit } from "components/controller/pagination/PaginationLogic";
 import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "store/hooks";
+import { setLoading } from "store/loading/loadingSlice";
 import {
   selectPage,
   setLeaguesFirstPage,
   setLeaguesPage,
 } from "store/pagination/matchesPaginationSlice";
-import LoadingSpinner from "../loading/LoadingSpinner";
 import PaginationPages from "../pagination/PaginationPages";
 import LeagueCard from "./LeagueCard";
 import "./leagues.css";
@@ -25,18 +25,20 @@ const Leagues: React.FC = () => {
 
   useEffect(() => {
     (async () => {
+      dispatch(setLoading(true));
       const leaguesData = await getLeagues();
       setLeaguesLoaded(leaguesData);
       if (leaguesData) {
         setTotalCount(leaguesData.count);
       }
+      dispatch(setLoading(false));
     })();
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className="leagues">
       <div className="leagues-container">
-        {leaguesIsLoaded ? (
+        {leaguesIsLoaded &&
           leaguesIsLoaded.competitions.map((league, index) => {
             if (
               index >= (page - 1) * leaguesPageLimit &&
@@ -44,10 +46,7 @@ const Leagues: React.FC = () => {
             ) {
               return <LeagueCard key={`${league.id}`} {...league} />;
             }
-          })
-        ) : (
-          <LoadingSpinner />
-        )}
+          })}
       </div>
       {leaguesIsLoaded && (
         <div className="teams-pagination">

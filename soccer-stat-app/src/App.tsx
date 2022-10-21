@@ -8,14 +8,18 @@ import { selectMatchId } from "./store/matchID/matchIdSlice";
 import "./App.css";
 import { selectPage } from "store/pagination/matchesPaginationSlice";
 import Teams from "components/view/teams/Teams";
+import { selectLoadingState } from "store/loading/loadingSlice";
+import LoadingSpinner from "components/view/loading/LoadingSpinner";
 
 function App() {
   const type = useAppSelector(selectMatchId).type;
   const id = useAppSelector(selectMatchId).id;
   const page = useAppSelector(selectPage).matchesPage;
   const name = useAppSelector(selectMatchId).teamName;
+  const loadingState = useAppSelector(selectLoadingState).isLoading;
   return (
     <div className="App">
+      {loadingState && <LoadingSpinner />}
       <header className="header-container">
         <div className="header-logo">
           <img src="soccer_ball.svg" alt="soccer ball"></img>
@@ -44,7 +48,7 @@ function App() {
           ></Route>
         </Routes>
       </main>
-      <footer className="footer"></footer>
+      {loadingState ? null : <footer className="footer"></footer>}
     </div>
   );
 }

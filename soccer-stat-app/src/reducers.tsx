@@ -5,6 +5,7 @@ const initialState = {
   leaguesPage: 1,
   teamsPage: 1,
   teamName: null,
+  isLoading: false,
 };
 
 export default function rootReducer(state = initialState) {

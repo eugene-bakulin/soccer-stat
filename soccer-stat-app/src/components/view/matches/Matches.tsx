@@ -15,7 +15,7 @@ import {
   setMatchesFirstPage,
   setMatchesPage,
 } from "../../../store/pagination/matchesPaginationSlice";
-import LoadingSpinner from "../loading/LoadingSpinner";
+import { setLoading } from "store/loading/loadingSlice";
 
 const Matches: React.FC<{
   teamName: string | null;
@@ -34,6 +34,7 @@ const Matches: React.FC<{
 
   useEffect(() => {
     (async () => {
+      dispatch(setLoading(true));
       const matchesData = props.id
         ? await getMatches(props.type, props.id)
         : null;
@@ -41,10 +42,12 @@ const Matches: React.FC<{
       if (matchesData) {
         setTotalCount(matchesData.resultSet.count);
       }
+      dispatch(setLoading(false));
     })();
-  }, [props.id, props.type]);
+  }, [dispatch, props.id, props.type]);
 
   const setDateClickHandler = async () => {
+    dispatch(setLoading(true));
     const fromDate = (document.getElementById("date-start") as HTMLInputElement)
       .value;
     const endDate = (document.getElementById("date-end") as HTMLInputElement)
@@ -58,6 +61,7 @@ const Matches: React.FC<{
       setTotalCount(matchesData.resultSet.count);
     }
     dispatch(setMatchesFirstPage());
+    dispatch(setLoading(false));
   };
 
   return (
@@ -114,7 +118,7 @@ const Matches: React.FC<{
           </div>
         </div>
       )}
-      {initialMatches ? (
+      {initialMatches && (
         <div className="matches-content">
           <table className="matches-table">
             <thead>
@@ -183,8 +187,6 @@ const Matches: React.FC<{
             </div>
           </div>
         </div>
-      ) : (
-        <LoadingSpinner />
       )}
     </div>
   );

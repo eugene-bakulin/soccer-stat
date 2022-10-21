@@ -10,7 +10,7 @@ import {
 } from "store/pagination/matchesPaginationSlice";
 import { teamsPageLimit } from "components/controller/pagination/PaginationLogic";
 import PaginationPages from "../pagination/PaginationPages";
-import LoadingSpinner from "../loading/LoadingSpinner";
+import { setLoading } from "store/loading/loadingSlice";
 
 const Teams: React.FC = () => {
   const [teamsIsLoaded, setTeams] = useState<respTeams | null>(null);
@@ -20,18 +20,20 @@ const Teams: React.FC = () => {
 
   useEffect(() => {
     (async () => {
+      dispatch(setLoading(true));
       const teamsData = await getTeams();
       setTeams(teamsData);
       if (teamsData) {
         setTotalCount(teamsData.count);
       }
+      dispatch(setLoading(false));
     })();
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className="teams">
       <div className="teams-container">
-        {teamsIsLoaded ? (
+        {teamsIsLoaded &&
           teamsIsLoaded.teams.map((team, index) => {
             if (
               index >= (page - 1) * teamsPageLimit &&
@@ -39,10 +41,7 @@ const Teams: React.FC = () => {
             ) {
               return <TeamCard key={team.id} {...team} />;
             }
-          })
-        ) : (
-          <LoadingSpinner />
-        )}
+          })}
       </div>
       {teamsIsLoaded && (
         <div className="leagues-pagination">
