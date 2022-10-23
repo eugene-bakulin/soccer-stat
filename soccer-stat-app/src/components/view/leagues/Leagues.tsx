@@ -15,31 +15,49 @@ import PaginationPages from "../pagination/PaginationPages";
 import LeagueCard from "./LeagueCard";
 import "./leagues.css";
 
-const Leagues: React.FC = () => {
-  const [leaguesIsLoaded, setLeaguesLoaded] = useState<respLeagues | null>(
-    null
-  );
+const Leagues: React.FC<{ search: string | null }> = (props) => {
+  const [leaguesIsLoaded, setLeaguesLoaded] = useState<
+    respLeagues["competitions"] | null
+  >(null);
   const dispatch = useAppDispatch();
   const page = useAppSelector(selectPage).leaguesPage;
   const [totalCount, setTotalCount] = useState<number>(0);
+  const search = props.search;
 
   useEffect(() => {
     (async () => {
       dispatch(setLoading(true));
       const leaguesData = await getLeagues();
-      setLeaguesLoaded(leaguesData);
       if (leaguesData) {
-        setTotalCount(leaguesData.count);
+        if (search) {
+          const filteredCompetitions = leaguesData.competitions.filter(
+            (item) => {
+              if (
+                item.area.name.toLowerCase().includes(search.toLowerCase()) ||
+                item.name.includes(search.toLowerCase())
+              ) {
+                return true;
+              } else {
+                return false;
+              }
+            }
+          );
+          setLeaguesLoaded(filteredCompetitions);
+          setTotalCount(filteredCompetitions.length + 1);
+        } else {
+          setLeaguesLoaded(leaguesData.competitions);
+          setTotalCount(leaguesData.count);
+        }
       }
       dispatch(setLoading(false));
     })();
-  }, [dispatch]);
+  }, [dispatch, search]);
 
   return (
     <div className="leagues">
       <div className="leagues-container">
         {leaguesIsLoaded &&
-          leaguesIsLoaded.competitions.map((league, index) => {
+          leaguesIsLoaded.map((league, index) => {
             if (
               index >= (page - 1) * leaguesPageLimit &&
               index <= page * leaguesPageLimit - 1

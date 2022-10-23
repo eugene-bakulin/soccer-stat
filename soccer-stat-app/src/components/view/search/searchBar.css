@@ -37,3 +37,7 @@
   width: 20px;
   cursor: pointer;
 }
+.search-button-label img:hover {
+  scale: 1.2;
+  transition: scale 0.2s ease;
+}

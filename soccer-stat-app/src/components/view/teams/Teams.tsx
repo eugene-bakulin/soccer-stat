@@ -12,29 +12,42 @@ import { teamsPageLimit } from "components/controller/pagination/PaginationLogic
 import PaginationPages from "../pagination/PaginationPages";
 import { setLoading } from "store/loading/loadingSlice";
 
-const Teams: React.FC = () => {
-  const [teamsIsLoaded, setTeams] = useState<respTeams | null>(null);
+const Teams: React.FC<{ search: string | null }> = (props) => {
+  const [teamsIsLoaded, setTeams] = useState<respTeams["teams"] | null>(null);
   const dispatch = useAppDispatch();
   const page = useAppSelector(selectPage).teamsPage;
   const [totalCount, setTotalCount] = useState<number>(0);
+  const search = props.search;
 
   useEffect(() => {
     (async () => {
       dispatch(setLoading(true));
       const teamsData = await getTeams();
-      setTeams(teamsData);
       if (teamsData) {
-        setTotalCount(teamsData.count);
+        if (search) {
+          const filteredTeams = teamsData.teams.filter((team) => {
+            if (team.name.toLowerCase().includes(search.toLowerCase())) {
+              return true;
+            } else {
+              return false;
+            }
+          });
+          setTeams(filteredTeams);
+          setTotalCount(filteredTeams.length + 1);
+        } else {
+          setTeams(teamsData.teams);
+          setTotalCount(teamsData.count);
+        }
       }
       dispatch(setLoading(false));
     })();
-  }, [dispatch]);
+  }, [dispatch, search]);
 
   return (
     <div className="teams">
       <div className="teams-container">
         {teamsIsLoaded &&
-          teamsIsLoaded.teams.map((team, index) => {
+          teamsIsLoaded.map((team, index) => {
             if (
               index >= (page - 1) * teamsPageLimit &&
               index <= page * teamsPageLimit - 1
