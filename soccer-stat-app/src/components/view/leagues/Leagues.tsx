@@ -1,7 +1,4 @@
-import {
-  getLeagues,
-  respLeagues,
-} from "components/controller/fetch/FetchLogic";
+import { respLeagues } from "components/controller/fetch/FetchLogic";
 import { leaguesPageLimit } from "components/controller/pagination/PaginationLogic";
 import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "store/hooks";
@@ -15,58 +12,28 @@ import PaginationPages from "../pagination/PaginationPages";
 import LeagueCard from "./LeagueCard";
 import "./leagues.css";
 
-const Leagues: React.FC<{ search: string | null }> = (props) => {
-  const [leaguesIsLoaded, setLeaguesLoaded] = useState<
-    respLeagues["competitions"] | null
-  >(null);
+const Leagues: React.FC<{
+  leaguesData: respLeagues | null;
+}> = (props) => {
   const dispatch = useAppDispatch();
   const page = useAppSelector(selectPage).leaguesPage;
-  const [totalCount, setTotalCount] = useState<number>(0);
-  const search = props.search;
-
-  useEffect(() => {
-    (async () => {
-      dispatch(setLoading(true));
-      const leaguesData = await getLeagues();
-      if (leaguesData) {
-        if (search) {
-          const filteredCompetitions = leaguesData.competitions.filter(
-            (item) => {
-              if (
-                item.area.name.toLowerCase().includes(search.toLowerCase()) ||
-                item.name.includes(search.toLowerCase())
-              ) {
-                return true;
-              } else {
-                return false;
-              }
-            }
-          );
-          setLeaguesLoaded(filteredCompetitions);
-          setTotalCount(filteredCompetitions.length + 1);
-        } else {
-          setLeaguesLoaded(leaguesData.competitions);
-          setTotalCount(leaguesData.count);
-        }
-      }
-      dispatch(setLoading(false));
-    })();
-  }, [dispatch, search]);
+  const leagues = props.leaguesData;
+  const totalCount = props.leaguesData ? props.leaguesData.count : 0;
 
   return (
     <div className="leagues">
       <div className="leagues-container">
-        {leaguesIsLoaded &&
-          leaguesIsLoaded.map((league, index) => {
+        {leagues &&
+          leagues.competitions.map((competition, index) => {
             if (
               index >= (page - 1) * leaguesPageLimit &&
               index <= page * leaguesPageLimit - 1
             ) {
-              return <LeagueCard key={`${league.id}`} {...league} />;
+              return <LeagueCard key={`${competition.id}`} {...competition} />;
             }
           })}
       </div>
-      {leaguesIsLoaded && (
+      {leagues && (
         <div className="teams-pagination">
           <div
             className={`double-arrow left-double-arrow ${

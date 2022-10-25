@@ -16,8 +16,12 @@ import {
   setMatchesPage,
 } from "../../../store/pagination/matchesPaginationSlice";
 import { setLoading } from "store/loading/loadingSlice";
+import { AxiosError } from "axios";
+import { setManyReqModal } from "store/modal/modalSlice";
 
 const Matches: React.FC<{
+  search: string | null;
+  leagueName: string | null;
   teamName: string | null;
   type: "league" | "team" | null;
   id: number | null;
@@ -26,42 +30,100 @@ const Matches: React.FC<{
   const dispatch = useAppDispatch();
   const page = useAppSelector(selectPage).matchesPage;
 
-  const [initialMatches, setInitialMatches] = useState<respMatches | null>(
-    null
-  );
-  const [matchesByDate, setMatchesByDate] = useState<respMatches | null>(null);
+  const [initialMatches, setInitialMatches] = useState<
+    respMatches["matches"] | null
+  >(null);
+  const [matchesByDate, setMatchesByDate] = useState<
+    respMatches["matches"] | null
+  >(null);
+  const [resultSetFirst, setResultSetFirst] = useState<string | null>(null);
+  const [resultSetLast, setResultSetLast] = useState<string | null>(null);
   const [totalCount, setTotalCount] = useState<number>(0);
 
   useEffect(() => {
     (async () => {
       dispatch(setLoading(true));
-      const matchesData = props.id
-        ? await getMatches(props.type, props.id)
-        : null;
-      setInitialMatches(matchesData);
-      if (matchesData) {
-        setTotalCount(matchesData.resultSet.count);
+      try {
+        const search = props.search;
+        const matchesData = props.id
+          ? await getMatches(props.type, props.id)
+          : null;
+        if (matchesData && search) {
+          const filteredMatchesData = matchesData.matches.filter((match) => {
+            if (
+              match.area.name.toLowerCase().includes(search.toLowerCase()) ||
+              match.competition.name
+                .toLowerCase()
+                .includes(search.toLowerCase()) ||
+              match.homeTeam.name
+                .toLowerCase()
+                .includes(search.toLowerCase()) ||
+              match.homeTeam.shortName
+                .toLowerCase()
+                .includes(search.toLowerCase()) ||
+              match.awayTeam.name
+                .toLowerCase()
+                .includes(search.toLowerCase()) ||
+              match.awayTeam.shortName
+                .toLowerCase()
+                .includes(search.toLowerCase()) ||
+              match.status.toLowerCase().includes(search.toLowerCase())
+            ) {
+              return true;
+            } else {
+              return false;
+            }
+          });
+          setInitialMatches(filteredMatchesData);
+          setTotalCount(filteredMatchesData.length + 1);
+          setResultSetFirst(matchesData.resultSet.first);
+          setResultSetLast(matchesData.resultSet.last);
+        } else {
+          if (matchesData) {
+            setInitialMatches(matchesData.matches);
+            setTotalCount(matchesData.resultSet.count);
+            setResultSetFirst(matchesData.resultSet.first);
+            setResultSetLast(matchesData.resultSet.last);
+          }
+        }
+      } catch (e) {
+        const err = e as AxiosError;
+        if (err.response?.status === 429) {
+          dispatch(setManyReqModal());
+        }
+      } finally {
+        dispatch(setLoading(false));
       }
-      dispatch(setLoading(false));
     })();
-  }, [dispatch, props.id, props.type]);
+  }, [dispatch, props.id, props.search, props.type]);
 
   const setDateClickHandler = async () => {
     dispatch(setLoading(true));
-    const fromDate = (document.getElementById("date-start") as HTMLInputElement)
-      .value;
-    const endDate = (document.getElementById("date-end") as HTMLInputElement)
-      .value;
+    try {
+      const fromDate = (
+        document.getElementById("date-start") as HTMLInputElement
+      ).value;
+      const endDate = (document.getElementById("date-end") as HTMLInputElement)
+        .value;
 
-    const matchesData = props.id
-      ? await getMatchesByDate(props.type, props.id, fromDate, endDate)
-      : null;
-    setMatchesByDate(matchesData);
-    if (matchesData) {
-      setTotalCount(matchesData.resultSet.count);
+      const matchesData = props.id
+        ? await getMatchesByDate(props.type, props.id, fromDate, endDate)
+        : null;
+      if (matchesData) {
+        setMatchesByDate(matchesData.matches);
+        setTotalCount(matchesData.resultSet.count);
+        setResultSetFirst(fromDate);
+        setResultSetLast(endDate);
+      }
+      dispatch(setMatchesFirstPage());
+    } catch (e) {
+      const err = e as AxiosError;
+      if (err.response?.status === 429) {
+        dispatch(setManyReqModal());
+      }
+    } finally {
+      dispatch(setLoading(false));
     }
-    dispatch(setMatchesFirstPage());
-    dispatch(setLoading(false));
   };
 
   return (
@@ -76,9 +138,7 @@ const Matches: React.FC<{
           </Link>
           <div className="breadcrumbs-delimeter">-</div>
           <Link className="breadcrumbs-current" to="">
-            {props.type === "league"
-              ? initialMatches && initialMatches.competition.name
-              : props.teamName}
+            {props.type === "league" ? props.leagueName : props.teamName}
           </Link>
         </div>
       )}
@@ -95,9 +155,9 @@ const Matches: React.FC<{
               id="date-start"
               type="date"
               name="trip-start"
-              defaultValue={initialMatches?.resultSet.first}
-              min={initialMatches.resultSet.first}
-              max={initialMatches.resultSet.last}
+              defaultValue={resultSetFirst ? resultSetFirst : ""}
+              min={resultSetFirst ? resultSetFirst : ""}
+              max={resultSetLast ? resultSetLast : ""}
             ></input>
           </div>
           <span>по</span>
@@ -106,9 +166,9 @@ const Matches: React.FC<{
               id="date-end"
               type="date"
               name="trip-start"
-              defaultValue={initialMatches.resultSet.last}
-              min={initialMatches.resultSet.first}
-              max={initialMatches.resultSet.last}
+              defaultValue={resultSetLast ? resultSetLast : ""}
+              min={resultSetFirst ? resultSetFirst : ""}
+              max={resultSetLast ? resultSetLast : ""}
             ></input>
           </div>
           <div className="set-button-wrapper">
@@ -137,7 +197,7 @@ const Matches: React.FC<{
               </tr>
             </thead>
             <tbody>
-              {(matchesByDate ? matchesByDate : initialMatches).matches.map(
+              {(matchesByDate ? matchesByDate : initialMatches).map(
                 (match, index) => {
                   if (
                     index >= (props.page - 1) * matchesPageLimit &&

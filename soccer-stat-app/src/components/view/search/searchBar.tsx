@@ -1,32 +1,38 @@
 import React, { useEffect, useState } from "react";
 import { useAppDispatch } from "store/hooks";
 import { clearSearch, setSearch } from "store/search/searchSlice";
+import { useLocation, useNavigate } from "react-router-dom";
 import "../search/searchBar.css";
 
 const SearchBar: React.FC = () => {
   const dispatch = useAppDispatch();
-  const [searchLocal, setLocalSearch] = useState<string | null>(null);
+  const history = useNavigate();
+  const location = useLocation();
   useEffect(() => {
-    const button = document.querySelector(".search-button");
     const searchField = document.getElementById(
       "search_field"
     ) as HTMLInputElement;
+    const button = document.getElementById("search_button") as HTMLInputElement;
 
-    if (button) {
-      button.addEventListener("click", () => {
-        if (searchField) {
-          dispatch(setSearch(searchField.value));
-          setLocalSearch(searchField.value);
-        }
-      });
-    }
     if (searchField) {
+      if (button) {
+        button.addEventListener("click", () => {
+          if (searchField.value && searchField.value.trim() !== "") {
+            if (window.location.href !== "http://localhost:3000/matches") {
+              history("/search");
+            }
+            dispatch(setSearch(searchField.value.trim()));
+          }
+        });
+      }
       searchField.addEventListener("search", () => {
+        if (window.location.href !== "http://localhost:3000/matches") {
+          history("/");
+        }
         dispatch(clearSearch());
-        setLocalSearch(null);
       });
     }
-  }, [dispatch]);
+  }, [dispatch, history, location.pathname]);
   return (
     <div className="search-bar">
       <form className="search-form">
@@ -35,8 +41,11 @@ const SearchBar: React.FC = () => {
           className="search-field"
           type={"search"}
           name={"search"}
-          placeholder={"поиск"}
-          defaultValue={searchLocal ? searchLocal : ""}
+          placeholder={
+            location.pathname === "/matches"
+              ? "поиск по матчам"
+              : "поиск по лигам и командам"
+          }
         ></input>
         <div className="search-button-container">
           <input

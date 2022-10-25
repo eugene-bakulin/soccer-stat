@@ -12,6 +12,9 @@ const TeamCard: React.FC<respTeams["teams"][0]> = (data) => {
   const history = useNavigate();
   const dispatch = useAppDispatch();
   const clickHandler = () => {
+    localStorage.setItem("idForMatchDisplay", `${data.id}`);
+    localStorage.setItem("typeForMatchDisplay", "team");
+    localStorage.setItem("nameForMatchDisplay", `${data.name}`);
     dispatch(setMatchId(data.id));
     dispatch(setMatchType("team"));
     dispatch(setTeamName(data.name));

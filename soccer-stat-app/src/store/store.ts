@@ -4,6 +4,7 @@ import matchIdReducer from "./matchID/matchIdSlice";
 import matchesTotalCountReducer from "./pagination/matchesTotalCountSlice";
 import loadingSliceReducer from "./loading/loadingSlice";
 import searchSliceReducer from "./search/searchSlice";
+import modalSliceReducer from "./modal/modalSlice";
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
     matchesCount: matchesTotalCountReducer,
     isLoading: loadingSliceReducer,
     searchSlice: searchSliceReducer,
+    modalSlice: modalSliceReducer,
   },
 });
 

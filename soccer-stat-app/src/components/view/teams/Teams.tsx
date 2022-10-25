@@ -1,4 +1,4 @@
-import { getTeams, respTeams } from "components/controller/fetch/FetchLogic";
+import { respTeams } from "components/controller/fetch/FetchLogic";
 import React, { useEffect, useState } from "react";
 import TeamCard from "./TeamCard";
 import "../teams/teams.css";
@@ -12,42 +12,17 @@ import { teamsPageLimit } from "components/controller/pagination/PaginationLogic
 import PaginationPages from "../pagination/PaginationPages";
 import { setLoading } from "store/loading/loadingSlice";
 
-const Teams: React.FC<{ search: string | null }> = (props) => {
-  const [teamsIsLoaded, setTeams] = useState<respTeams["teams"] | null>(null);
+const Teams: React.FC<{ teamsData: respTeams | null }> = (props) => {
   const dispatch = useAppDispatch();
   const page = useAppSelector(selectPage).teamsPage;
-  const [totalCount, setTotalCount] = useState<number>(0);
-  const search = props.search;
-
-  useEffect(() => {
-    (async () => {
-      dispatch(setLoading(true));
-      const teamsData = await getTeams();
-      if (teamsData) {
-        if (search) {
-          const filteredTeams = teamsData.teams.filter((team) => {
-            if (team.name.toLowerCase().includes(search.toLowerCase())) {
-              return true;
-            } else {
-              return false;
-            }
-          });
-          setTeams(filteredTeams);
-          setTotalCount(filteredTeams.length + 1);
-        } else {
-          setTeams(teamsData.teams);
-          setTotalCount(teamsData.count);
-        }
-      }
-      dispatch(setLoading(false));
-    })();
-  }, [dispatch, search]);
+  const teams = props.teamsData;
+  const totalCount = props.teamsData ? props.teamsData.count : 0;
 
   return (
     <div className="teams">
       <div className="teams-container">
-        {teamsIsLoaded &&
-          teamsIsLoaded.map((team, index) => {
+        {teams &&
+          teams.teams.map((team, index) => {
             if (
               index >= (page - 1) * teamsPageLimit &&
               index <= page * teamsPageLimit - 1
@@ -56,7 +31,7 @@ const Teams: React.FC<{ search: string | null }> = (props) => {
             }
           })}
       </div>
-      {teamsIsLoaded && (
+      {teams && (
         <div className="leagues-pagination">
           <div
             className={`double-arrow left-double-arrow ${

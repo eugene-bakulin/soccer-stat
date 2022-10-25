@@ -151,29 +151,19 @@ export type respTeams = {
 };
 
 export const getLeagues = async () => {
-  try {
-    const resp = await axios.get(url + "competitions/", keyConfig);
-    if (resp.status === 200) {
-      return (await resp.data) as respLeagues;
-    } else {
-      return null; // add handler later!
-    }
-  } catch (e) {
-    console.error(e);
+  const resp = await axios.get(url + "competitions/", keyConfig);
+  if (resp.status === 200) {
+    return (await resp.data) as respLeagues;
+  } else {
     return null;
   }
 };
 
 export const getTeams = async () => {
-  try {
-    const resp = await axios.get(url + "teams/", keyConfig);
-    if (resp.status === 200) {
-      return (await resp.data) as respTeams;
-    } else {
-      return null; // add handler later!
-    }
-  } catch (e) {
-    console.error(e);
+  const resp = await axios.get(url + "teams/", keyConfig);
+  if (resp.status === 200) {
+    return (await resp.data) as respTeams;
+  } else {
     return null;
   }
 };
@@ -182,28 +172,20 @@ export const getMatches = async (
   type: "league" | "team" | null,
   id: number
 ) => {
-  try {
-    if (type) {
-      const resp =
-        type === "league"
-          ? await axios.get(
-              url + "competitions/" + String(id) + "/matches/",
-              keyConfig
-            )
-          : await axios.get(
-              url + "teams/" + String(id) + "/matches/",
-              keyConfig
-            );
-      if (resp.status === 200) {
-        return (await resp.data) as respMatches;
-      } else {
-        return null; // add handler later!
-      }
+  if (type) {
+    const resp =
+      type === "league"
+        ? await axios.get(
+            url + "competitions/" + String(id) + "/matches/",
+            keyConfig
+          )
+        : await axios.get(url + "teams/" + String(id) + "/matches/", keyConfig);
+    if (resp.status === 200) {
+      return (await resp.data) as respMatches;
     } else {
       return null;
     }
-  } catch (e) {
-    console.error(e);
+  } else {
     return null;
   }
 };
@@ -214,40 +196,35 @@ export const getMatchesByDate = async (
   dateFrom: string,
   dateTo: string
 ) => {
-  try {
-    if (type) {
-      const resp =
-        type === "league"
-          ? await axios.get(
-              url +
-                "competitions/" +
-                String(id) +
-                "/matches?dateFrom=" +
-                dateFrom +
-                "&dateTo=" +
-                dateTo,
-              keyConfig
-            )
-          : await axios.get(
-              url +
-                "teams/" +
-                String(id) +
-                "/matches?dateFrom=" +
-                dateFrom +
-                "&dateTo=" +
-                dateTo,
-              keyConfig
-            );
-      if (resp.status === 200) {
-        return (await resp.data) as respMatches;
-      } else {
-        return null; // add handler later!
-      }
+  if (type) {
+    const resp =
+      type === "league"
+        ? await axios.get(
+            url +
+              "competitions/" +
+              String(id) +
+              "/matches?dateFrom=" +
+              dateFrom +
+              "&dateTo=" +
+              dateTo,
+            keyConfig
+          )
+        : await axios.get(
+            url +
+              "teams/" +
+              String(id) +
+              "/matches?dateFrom=" +
+              dateFrom +
+              "&dateTo=" +
+              dateTo,
+            keyConfig
+          );
+    if (resp.status === 200) {
+      return (await resp.data) as respMatches;
     } else {
       return null;
     }
-  } catch (e) {
-    console.error(e);
+  } else {
     return null;
   }
 };
