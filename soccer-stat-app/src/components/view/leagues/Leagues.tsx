@@ -1,8 +1,7 @@
 import { respLeagues } from "components/controller/fetch/FetchLogic";
 import { leaguesPageLimit } from "components/controller/pagination/PaginationLogic";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useAppDispatch, useAppSelector } from "store/hooks";
-import { setLoading } from "store/loading/loadingSlice";
 import {
   selectPage,
   setLeaguesFirstPage,

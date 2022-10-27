@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useAppDispatch } from "store/hooks";
 import { clearSearch, setSearch } from "store/search/searchSlice";
 import { useLocation, useNavigate } from "react-router-dom";

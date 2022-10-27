@@ -1,5 +1,5 @@
 import { respTeams } from "components/controller/fetch/FetchLogic";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import TeamCard from "./TeamCard";
 import "../teams/teams.css";
 import { useAppDispatch, useAppSelector } from "store/hooks";
@@ -10,7 +10,6 @@ import {
 } from "store/pagination/matchesPaginationSlice";
 import { teamsPageLimit } from "components/controller/pagination/PaginationLogic";
 import PaginationPages from "../pagination/PaginationPages";
-import { setLoading } from "store/loading/loadingSlice";
 
 const Teams: React.FC<{ teamsData: respTeams | null }> = (props) => {
   const dispatch = useAppDispatch();

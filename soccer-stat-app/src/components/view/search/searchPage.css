@@ -1,0 +1,25 @@
+.search-results-container {
+  margin-bottom: 2em;
+}
+.search-results-leagues {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.search-results-teams {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.search-results-name {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+.search-results-wrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  row-gap: 1em;
+  column-gap: 1em;
+  justify-content: center;
+}

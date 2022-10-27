@@ -17,7 +17,7 @@ import {
 } from "../../../store/pagination/matchesPaginationSlice";
 import { setLoading } from "store/loading/loadingSlice";
 import { AxiosError } from "axios";
-import { setManyReqModal } from "store/modal/modalSlice";
+import { setDeniedModal, setManyReqModal } from "store/modal/modalSlice";
 
 const Matches: React.FC<{
   search: string | null;
@@ -90,6 +90,9 @@ const Matches: React.FC<{
         const err = e as AxiosError;
         if (err.response?.status === 429) {
           dispatch(setManyReqModal());
+        }
+        if (err.response?.status === 403) {
+          dispatch(setDeniedModal());
         }
       } finally {
         dispatch(setLoading(false));

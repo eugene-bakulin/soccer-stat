@@ -10,19 +10,18 @@ import { selectPage } from "store/pagination/matchesPaginationSlice";
 import Teams from "components/view/teams/Teams";
 import { selectLoadingState, setLoading } from "store/loading/loadingSlice";
 import LoadingSpinner from "components/view/loading/LoadingSpinner";
-import { clearSearch, selectSearchState } from "store/search/searchSlice";
+import { selectSearchState } from "store/search/searchSlice";
 import {
   getLeagues,
   getTeams,
   respLeagues,
-  respMatches,
   respTeams,
 } from "components/controller/fetch/FetchLogic";
 import SearchPage from "components/view/search/searchPage";
 import { selectModalState, setManyReqModal } from "store/modal/modalSlice";
 import ManyReqModal from "components/view/modal/manyReqModal";
-import axios, { AxiosError } from "axios";
-import { keyConfig, url } from "components/controller/fetch/FetchSettings";
+import { AxiosError } from "axios";
+import DeniedModal from "components/view/modal/deniedModal";
 
 function App() {
   const type = useAppSelector(selectMatchId).type;
@@ -38,7 +37,6 @@ function App() {
 
   const [leaguesIsLoaded, setLeagues] = useState<respLeagues | null>(null);
   const [teamsIsLoaded, setTeams] = useState<respTeams | null>(null);
-  const [matchesIsLoaded, setMatches] = useState<respMatches[] | null>(null);
 
   const idForMatchDisplay = localStorage.getItem("idForMatchDisplay");
   const typeForMatchDisplay = localStorage.getItem("typeForMatchDisplay") as
@@ -73,6 +71,7 @@ function App() {
     <div className="App">
       {loadingState && <LoadingSpinner />}
       {manyReqState && <ManyReqModal />}
+      {deniedModalState && <DeniedModal />}
       <header className="header-container">
         <div className="header-logo">
           <img src="soccer_ball.svg" alt="soccer ball"></img>
