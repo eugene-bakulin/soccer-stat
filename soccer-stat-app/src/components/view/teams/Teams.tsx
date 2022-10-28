@@ -31,7 +31,7 @@ const Teams: React.FC<{ teamsData: respTeams | null }> = (props) => {
           })}
       </div>
       {teams && (
-        <div className="leagues-pagination">
+        <div className="teams-pagination">
           <div
             className={`double-arrow left-double-arrow ${
               page === 1 && `disabled`

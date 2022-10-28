@@ -75,7 +75,7 @@ const Matches: React.FC<{
             }
           });
           setInitialMatches(filteredMatchesData);
-          setTotalCount(filteredMatchesData.length + 1);
+          setTotalCount(filteredMatchesData.length);
           setResultSetFirst(matchesData.resultSet.first);
           setResultSetLast(matchesData.resultSet.last);
         } else {
@@ -183,72 +183,80 @@ const Matches: React.FC<{
       )}
       {initialMatches && (
         <div className="matches-content">
-          <table className="matches-table">
-            <thead>
-              <tr>
-                <th rowSpan={2}>Дата</th>
-                <th rowSpan={2}>Время</th>
-                <th rowSpan={2}>Статус</th>
-                <th rowSpan={2}>Команда А</th>
-                <th rowSpan={2}>Команда Б</th>
-                <th colSpan={3}>Счет</th>
-              </tr>
-              <tr>
-                <th>Основное время</th>
-                <th>Дополнительное время</th>
-                <th>Пенальти</th>
-              </tr>
-            </thead>
-            <tbody>
-              {(matchesByDate ? matchesByDate : initialMatches).map(
-                (match, index) => {
-                  if (
-                    index >= (props.page - 1) * matchesPageLimit &&
-                    index <= props.page * matchesPageLimit - 1
-                  ) {
-                    return <Match key={`${match.id}`} {...match} />;
+          {totalCount !== 0 ? (
+            <table className="matches-table">
+              <thead>
+                <tr>
+                  <th rowSpan={2}>Дата</th>
+                  <th rowSpan={2}>Время</th>
+                  <th rowSpan={2}>Статус</th>
+                  <th rowSpan={2}>Команда А</th>
+                  <th rowSpan={2}>Команда Б</th>
+                  <th colSpan={3}>Счет</th>
+                </tr>
+                <tr>
+                  <th>Основное время</th>
+                  <th>Дополнительное время</th>
+                  <th>Пенальти</th>
+                </tr>
+              </thead>
+              <tbody>
+                {(matchesByDate ? matchesByDate : initialMatches).map(
+                  (match, index) => {
+                    if (
+                      index >= (props.page - 1) * matchesPageLimit &&
+                      index <= props.page * matchesPageLimit - 1
+                    ) {
+                      return <Match key={`${match.id}`} {...match} />;
+                    }
                   }
+                )}
+              </tbody>
+            </table>
+          ) : (
+            <h4 style={{ textAlign: "center" }}>нет результатов :(</h4>
+          )}
+          {totalCount !== 0 && (
+            <div className="matches-pagination">
+              <div
+                className={`double-arrow left-double-arrow ${
+                  page === 1 && `disabled`
+                }`}
+                onClick={() => dispatch(setMatchesFirstPage())}
+              >
+                &#8810;
+              </div>
+              <div
+                className={`arrow left-arrow ${page === 1 && `disabled`}`}
+                onClick={() => dispatch(setMatchesPage(page - 1))}
+              >
+                &#60;
+              </div>
+              <PaginationPages type={"matches"} respCount={totalCount} />
+              <div
+                className={`arrow right-arrow ${
+                  page === Math.ceil(totalCount / matchesPageLimit) &&
+                  `disabled`
+                }`}
+                onClick={() => dispatch(setMatchesPage(page + 1))}
+              >
+                &#62;
+              </div>
+              <div
+                className={`double-arrow right-double-arrow ${
+                  page === Math.ceil(totalCount / matchesPageLimit) &&
+                  `disabled`
+                }`}
+                onClick={() =>
+                  dispatch(
+                    setMatchesPage(Math.ceil(totalCount / matchesPageLimit))
+                  )
                 }
-              )}
-            </tbody>
-          </table>
-          <div className="matches-pagination">
-            <div
-              className={`double-arrow left-double-arrow ${
-                page === 1 && `disabled`
-              }`}
-              onClick={() => dispatch(setMatchesFirstPage())}
-            >
-              &#8810;
+              >
+                &#8811;
+              </div>
             </div>
-            <div
-              className={`arrow left-arrow ${page === 1 && `disabled`}`}
-              onClick={() => dispatch(setMatchesPage(page - 1))}
-            >
-              &#60;
-            </div>
-            <PaginationPages type={"matches"} respCount={totalCount} />
-            <div
-              className={`arrow right-arrow ${
-                page === Math.ceil(totalCount / matchesPageLimit) && `disabled`
-              }`}
-              onClick={() => dispatch(setMatchesPage(page + 1))}
-            >
-              &#62;
-            </div>
-            <div
-              className={`double-arrow right-double-arrow ${
-                page === Math.ceil(totalCount / matchesPageLimit) && `disabled`
-              }`}
-              onClick={() =>
-                dispatch(
-                  setMatchesPage(Math.ceil(totalCount / matchesPageLimit))
-                )
-              }
-            >
-              &#8811;
-            </div>
-          </div>
+          )}
         </div>
       )}
     </div>

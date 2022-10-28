@@ -5,7 +5,7 @@
   align-items: center;
   width: fit-content;
   height: fit-content;
-  border:2px solid black;
+  border: 2px solid whitesmoke;
   border-radius: 10px;
   margin-top: 20px;
   margin-bottom: 20px;
@@ -40,4 +40,9 @@
 .search-button-label img:hover {
   scale: 1.2;
   transition: scale 0.2s ease;
+}
+.highlighted {
+  -webkit-box-shadow: 0px 0px 16px 10px rgba(255, 255, 255, 0.4);
+  -moz-box-shadow: 0px 0px 16px 10px rgba(255, 255, 255, 0.4);
+  box-shadow: 0px 0px 16px 10px rgba(255, 255, 255, 0.4);
 }

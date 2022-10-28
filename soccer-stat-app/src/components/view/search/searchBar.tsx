@@ -1,6 +1,10 @@
 import React, { useEffect } from "react";
-import { useAppDispatch } from "store/hooks";
-import { clearSearch, setSearch } from "store/search/searchSlice";
+import { useAppDispatch, useAppSelector } from "store/hooks";
+import {
+  clearSearch,
+  selectSearchState,
+  setSearch,
+} from "store/search/searchSlice";
 import { useLocation, useNavigate } from "react-router-dom";
 import "../search/searchBar.css";
 
@@ -8,6 +12,8 @@ const SearchBar: React.FC = () => {
   const dispatch = useAppDispatch();
   const history = useNavigate();
   const location = useLocation();
+  const search = useAppSelector(selectSearchState).search;
+  const userSearchLS = localStorage.getItem("userSearch");
   useEffect(() => {
     const searchField = document.getElementById(
       "search_field"
@@ -22,6 +28,7 @@ const SearchBar: React.FC = () => {
               history("/search");
             }
             dispatch(setSearch(searchField.value.trim()));
+            localStorage.setItem("userSearch", searchField.value.trim());
           }
         });
       }
@@ -30,12 +37,15 @@ const SearchBar: React.FC = () => {
           history("/");
         }
         dispatch(clearSearch());
+        localStorage.removeItem("userSearch");
       });
     }
   }, [dispatch, history, location.pathname]);
   return (
     <div className="search-bar">
-      <form className="search-form">
+      <form
+        className={`search-form ${search || userSearchLS ? "highlighted" : ""}`}
+      >
         <input
           id="search_field"
           className="search-field"
@@ -46,6 +56,7 @@ const SearchBar: React.FC = () => {
               ? "поиск по матчам"
               : "поиск по лигам и командам"
           }
+          defaultValue={search ? search : userSearchLS ? userSearchLS : ""}
         ></input>
         <div className="search-button-container">
           <input
@@ -54,7 +65,7 @@ const SearchBar: React.FC = () => {
             type={"button"}
           ></input>
           <label className="search-button-label" htmlFor="search_button">
-            <img src="search.svg" alt="search"></img>
+            <img src="search.png" alt="search"></img>
           </label>
         </div>
       </form>

@@ -1,10 +1,15 @@
+.App {
+  background-image: url("./components/view/app/assets/perfect-green-grass.jpg");
+  background-size: contain;
+  /* background-repeat: repeat-y; */
+}
 .header-container {
   font-size: 2em;
   display: flex;
   column-gap: 10%;
   align-items: center;
   padding: 30px;
-  background-color: rgb(186, 186, 186);
+  background-color: rgba(0, 0, 0, 0.4);
 }
 .header-logo {
   display: flex;
@@ -15,30 +20,47 @@
   cursor: pointer;
 }
 .header-logo img:hover {
-  -webkit-box-shadow: 0px 0px 30px 0px rgba(34, 60, 80, 0.73);
-  -moz-box-shadow: 0px 0px 30px 0px rgba(34, 60, 80, 0.73);
-  box-shadow: 0px 0px 30px 0px rgba(34, 60, 80, 0.73);
+  -webkit-box-shadow: 0px 0px 30px 0px rgba(255, 255, 255, 0.4);
+  -moz-box-shadow: 0px 0px 30px 0px rgba(255, 255, 255, 0.4);
+  box-shadow: 0px 0px 30px 0px rgba(255, 255, 255, 0.4);
   scale: 1.1;
   transition: scale 0.3s ease;
   border-radius: 100px;
 }
 .header-link {
   text-decoration: none;
-  color: black;
+  color: whitesmoke;
+}
+.header-link:hover {
+  color: rgb(255, 255, 1);
+  transition: color 0.3s ease;
 }
 .pagination-pages {
   display: flex;
   flex-direction: row;
   column-gap: 1em;
+  font-size: 1.2em;
 }
 .pagination-page {
   cursor: pointer;
 }
+.pagination-page:hover {
+  color: rgb(255, 255, 1);
+  transition: color 0.3s ease;
+}
 .double-arrow {
   cursor: pointer;
 }
+.double-arrow:hover {
+  color: rgb(255, 255, 1);
+  transition: color 0.3s ease;
+}
 .arrow {
   cursor: pointer;
+}
+.arrow:hover {
+  color: rgb(255, 255, 1);
+  transition: color 0.3s ease;
 }
 .disabled {
   pointer-events: none;
@@ -46,7 +68,12 @@
 }
 .footer {
   height: 100px;
-  background-color: rgb(186, 186, 186);
+  background-color: rgba(0, 0, 0, 0.4);
+}
+.active-link {
+  color: rgb(255, 255, 1);
+  text-decoration: underline rgb(255, 255, 1) 1px;
+  text-underline-offset: 7px;
 }
 
 @media screen and (max-width: 789px) { 
@@ -54,5 +81,25 @@
     flex-wrap: wrap;
     justify-content: space-around;
     padding-bottom: 0;
+  }
+  @media screen and (max-width: 380px) { 
+    .header-container {
+      display: grid;
+      grid-template-areas:  "A B"
+                            "A C"
+                            "D D";
+    }
+    .header-logo {
+      grid-area: A;
+    }
+    .header-leagues {
+      grid-area: B;
+    }
+    .header-teams {
+      grid-area: C;
+    }
+    .search-bar {
+      grid-area: D;
+    }
   }
 }

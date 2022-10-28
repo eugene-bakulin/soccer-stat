@@ -11,20 +11,23 @@
   row-gap: 2em;
   margin-top: 2em;
   margin-bottom: 2em;
+  padding: 0 1em;
 }
 .league-card {
   width: 40%;
-  border: 2px solid black;
+  border: 2px solid rgba(245, 245, 245, 0.6);
   border-radius: 1em;
   padding: 1em;
   cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.4);
 }
 .league-card:hover {
   scale: 1.05;
-  -webkit-box-shadow: 0px 0px 10px 10px rgba(34, 60, 80, 0.3);
-  -moz-box-shadow: 0px 0px 10px 10px rgba(34, 60, 80, 0.3);
-  box-shadow: 0px 0px 10px 10px rgba(34, 60, 80, 0.3);
+  -webkit-box-shadow: 0px 0px 10px 10px rgba(34, 60, 80, 0.4);
+  -moz-box-shadow: 0px 0px 10px 10px rgba(34, 60, 80, 0.4);
+  box-shadow: 0px 0px 10px 10px rgba(34, 60, 80, 0.4);
   transition: scale 0.6s ease;
+  background-color: rgba(245, 245, 245, 0.4);
 }
 .league-info {
   display: grid;
@@ -51,10 +54,18 @@
   width: 100%;
 }
 .leagues-pagination {
-  margin-bottom: 2em;
+  padding: 0.5em;
   align-self: center;
   display: flex;
   flex-direction: row;
   column-gap: 1em;
   user-select: none;
+  margin-bottom: 2em;
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 2em;
+}
+@media screen and (max-width: 629px) { 
+  .league-card {
+    width: 80%;
+  }
 }

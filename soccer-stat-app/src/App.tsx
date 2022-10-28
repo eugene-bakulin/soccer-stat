@@ -2,7 +2,7 @@ import Leagues from "components/view/leagues/Leagues";
 import Matches from "components/view/matches/Matches";
 import SearchBar from "components/view/search/searchBar";
 import React, { useEffect, useState } from "react";
-import { Link, Route, Routes } from "react-router-dom";
+import { Link, Route, Routes, useLocation } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "./store/hooks";
 import { selectMatchId } from "./store/matchID/matchIdSlice";
 import "./App.css";
@@ -10,7 +10,7 @@ import { selectPage } from "store/pagination/matchesPaginationSlice";
 import Teams from "components/view/teams/Teams";
 import { selectLoadingState, setLoading } from "store/loading/loadingSlice";
 import LoadingSpinner from "components/view/loading/LoadingSpinner";
-import { selectSearchState } from "store/search/searchSlice";
+import { clearSearch, selectSearchState } from "store/search/searchSlice";
 import {
   getLeagues,
   getTeams,
@@ -34,6 +34,7 @@ function App() {
   const manyReqState = useAppSelector(selectModalState).manyReqModalDisplay;
   const deniedModalState = useAppSelector(selectModalState).deniedModalDisplay;
   const dispatch = useAppDispatch();
+  const location = useLocation();
 
   const [leaguesIsLoaded, setLeagues] = useState<respLeagues | null>(null);
   const [teamsIsLoaded, setTeams] = useState<respTeams | null>(null);
@@ -44,6 +45,12 @@ function App() {
     | "team"
     | null;
   const nameForMatchDisplay = localStorage.getItem("nameForMatchDisplay");
+  const userSearchLS = localStorage.getItem("userSearch");
+
+  const refHandler = () => {
+    dispatch(clearSearch());
+    localStorage.removeItem("userSearch");
+  };
 
   useEffect(() => {
     (async () => {
@@ -77,12 +84,25 @@ function App() {
           <img src="soccer_ball.svg" alt="soccer ball"></img>
         </div>
         <div className="header-leagues">
-          <Link className="header-link" to="/leagues">
+          <Link
+            className={`header-link ${
+              (location.pathname === "/leagues" || location.pathname === "/") &&
+              "active-link"
+            }`}
+            to="/leagues"
+            onClick={refHandler}
+          >
             Лиги
           </Link>
         </div>
         <div className="header-teams">
-          <Link className="header-link" to="/teams">
+          <Link
+            className={`header-link ${
+              location.pathname === "/teams" && "active-link"
+            }`}
+            to="/teams"
+            onClick={refHandler}
+          >
             Команды
           </Link>
         </div>
@@ -102,7 +122,7 @@ function App() {
             path="/matches"
             element={
               <Matches
-                search={search}
+                search={search ? search : userSearchLS ? userSearchLS : null}
                 teamName={
                   teamName
                     ? teamName
@@ -131,7 +151,7 @@ function App() {
               <SearchPage
                 leaguesData={leaguesIsLoaded}
                 teamsData={teamsIsLoaded}
-                search={search}
+                search={search ? search : userSearchLS ? userSearchLS : null}
               />
             }
           ></Route>

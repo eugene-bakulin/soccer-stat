@@ -33,7 +33,7 @@ const Leagues: React.FC<{
           })}
       </div>
       {leagues && (
-        <div className="teams-pagination">
+        <div className="leagues-pagination">
           <div
             className={`double-arrow left-double-arrow ${
               page === 1 && `disabled`

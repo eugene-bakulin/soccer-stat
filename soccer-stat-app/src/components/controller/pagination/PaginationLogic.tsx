@@ -9,7 +9,11 @@ export const pageMaker = (numbers: string[], current: number) => {
     <div
       key={`${number}_${index}}`}
       className={number === "..." ? "rest" : `pagination-page page-${number}`}
-      style={current === +number ? { fontWeight: "bolder" } : {}}
+      style={
+        current === +number
+          ? { fontWeight: "bolder", color: "rgb(255, 255, 1)" }
+          : {}
+      }
     >{`${number}`}</div>
   ));
 };
