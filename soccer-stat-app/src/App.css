@@ -87,7 +87,10 @@
   text-underline-offset: 7px;
 }
 
-@media screen and (max-width: 789px) { 
+@media screen and (max-width: 789px) {
+  .App {
+    width: fit-content;
+  }
   .header-container {
     flex-wrap: wrap;
     justify-content: space-around;
