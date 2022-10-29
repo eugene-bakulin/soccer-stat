@@ -1,5 +1,6 @@
 .search-results-container {
   margin-bottom: 2em;
+  min-height: 63vh;
 }
 .search-results-leagues {
   display: flex;
