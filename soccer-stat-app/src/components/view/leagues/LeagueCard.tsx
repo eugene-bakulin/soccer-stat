@@ -18,7 +18,7 @@ const LeagueCard: React.FC<respLeagues["competitions"][0]> = (data) => {
     dispatch(setMatchId(data.id));
     dispatch(setMatchType("league"));
     dispatch(setLeagueName(data.name));
-    history("/matches");
+    history("/soccer-stat/matches");
   };
   return (
     <div className="league-card" onClick={clickHandler}>

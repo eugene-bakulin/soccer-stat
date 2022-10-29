@@ -41,7 +41,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "homepage": "./",
+  "homepage": "https://eugene-bakulin.github.io/soccer-stat",
   "eslintConfig": {
     "extends": [
       "react-app",

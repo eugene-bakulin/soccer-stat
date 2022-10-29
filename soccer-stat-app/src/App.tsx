@@ -87,10 +87,11 @@ function App() {
         <div className="header-leagues">
           <Link
             className={`header-link ${
-              (location.pathname === "/leagues" || location.pathname === "/") &&
+              (location.pathname === "/soccer-stat/leagues" ||
+                location.pathname === "/soccer-stat/") &&
               "active-link"
             }`}
-            to="/leagues"
+            to="/soccer-stat/leagues"
             onClick={refHandler}
           >
             Лиги
@@ -99,9 +100,9 @@ function App() {
         <div className="header-teams">
           <Link
             className={`header-link ${
-              location.pathname === "/teams" && "active-link"
+              location.pathname === "/soccer-stat/teams" && "active-link"
             }`}
-            to="/teams"
+            to="/soccer-stat/teams"
             onClick={refHandler}
           >
             Команды
@@ -112,15 +113,15 @@ function App() {
       <main>
         <Routes>
           <Route
-            path="/*"
+            path="/soccer-stat/*"
             element={<Leagues leaguesData={leaguesIsLoaded} />}
           ></Route>
           <Route
-            path="/teams"
+            path="/soccer-stat/teams"
             element={<Teams teamsData={teamsIsLoaded} />}
           ></Route>
           <Route
-            path="/matches"
+            path="/soccer-stat/matches"
             element={
               <Matches
                 search={search ? search : userSearchLS ? userSearchLS : null}
@@ -147,7 +148,7 @@ function App() {
             }
           ></Route>
           <Route
-            path="/search"
+            path="/soccer-stat/search"
             element={
               <SearchPage
                 leaguesData={leaguesIsLoaded}

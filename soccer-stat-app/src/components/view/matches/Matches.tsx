@@ -133,7 +133,11 @@ const Matches: React.FC<{
         <div className="matches-breadcrumbs">
           <Link
             className="breadcrumbs-leagues-link"
-            to={props.type === "league" ? "/leagues" : "/teams"}
+            to={
+              props.type === "league"
+                ? "/soccer-stat/leagues"
+                : "/soccer-stat/teams"
+            }
           >
             {props.type === "league" ? "Лиги" : "Команды"}
           </Link>

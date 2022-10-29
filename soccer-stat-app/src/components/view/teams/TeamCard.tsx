@@ -18,7 +18,7 @@ const TeamCard: React.FC<respTeams["teams"][0]> = (data) => {
     dispatch(setMatchId(data.id));
     dispatch(setMatchType("team"));
     dispatch(setTeamName(data.name));
-    history("/matches");
+    history("/soccer-stat/matches");
   };
 
   return (

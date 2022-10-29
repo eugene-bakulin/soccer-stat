@@ -6,7 +6,8 @@
   bottom: 0;
   height: 100%;
   width: 100%;
-  background-image: rgba(25, 25, 25, 0.7);
+  background-image: url("../app/assets/perfect-green-grass.jpg");
+  z-index: 100;
   color: whitesmoke;
   cursor: pointer;
 }

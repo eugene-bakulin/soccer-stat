@@ -25,8 +25,11 @@ const SearchBar: React.FC = () => {
       if (button) {
         button.addEventListener("click", () => {
           if (searchField.value && searchField.value.trim() !== "") {
-            if (window.location.href !== "http://localhost:3000/matches") {
-              history("/search");
+            if (
+              window.location.href !==
+              "https://eugene-bakulin.github.io/soccer-stat/matches"
+            ) {
+              history("/soccer-stat/search");
             }
             dispatch(setSearch(searchField.value.trim()));
             localStorage.setItem("userSearch", searchField.value.trim());
@@ -34,14 +37,19 @@ const SearchBar: React.FC = () => {
         });
       }
       searchField.addEventListener("search", () => {
-        if (window.location.href !== "http://localhost:3000/matches") {
-          history("/");
+        if (search || userSearchLS) {
+          if (
+            window.location.href !==
+            "https://eugene-bakulin.github.io/soccer-stat/matches"
+          ) {
+            history("/soccer-stat");
+          }
+          dispatch(clearSearch());
+          localStorage.removeItem("userSearch");
         }
-        dispatch(clearSearch());
-        localStorage.removeItem("userSearch");
       });
     }
-  }, [dispatch, history, location.pathname]);
+  }, [dispatch, history, location.pathname, search, userSearchLS]);
   return (
     <div className="search-bar">
       <form
@@ -53,7 +61,7 @@ const SearchBar: React.FC = () => {
           type={"search"}
           name={"search"}
           placeholder={
-            location.pathname === "/matches"
+            location.pathname === "/soccer-stat/matches"
               ? "поиск по матчам"
               : "поиск по лигам и командам"
           }
