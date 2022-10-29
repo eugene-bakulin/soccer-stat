@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "./static/css/main.b3d6b583.chunk.css",
+    "main.css": "./static/css/main.24e44f30.chunk.css",
     "main.js": "./static/js/main.44fce534.chunk.js",
     "main.js.map": "./static/js/main.44fce534.chunk.js.map",
     "runtime-main.js": "./static/js/runtime-main.f362fac6.js",
@@ -8,7 +8,7 @@
     "static/js/2.7b2a7706.chunk.js": "./static/js/2.7b2a7706.chunk.js",
     "static/js/2.7b2a7706.chunk.js.map": "./static/js/2.7b2a7706.chunk.js.map",
     "index.html": "./index.html",
-    "static/css/main.b3d6b583.chunk.css.map": "./static/css/main.b3d6b583.chunk.css.map",
+    "static/css/main.24e44f30.chunk.css.map": "./static/css/main.24e44f30.chunk.css.map",
     "static/js/2.7b2a7706.chunk.js.LICENSE.txt": "./static/js/2.7b2a7706.chunk.js.LICENSE.txt",
     "static/media/spinner.css": "./static/media/perfect-green-grass.6fe628ea.jpg",
     "static/media/soccer_ball.2f940714.svg": "./static/media/soccer_ball.2f940714.svg"
@@ -16,7 +16,7 @@
   "entrypoints": [
     "static/js/runtime-main.f362fac6.js",
     "static/js/2.7b2a7706.chunk.js",
-    "static/css/main.b3d6b583.chunk.css",
+    "static/css/main.24e44f30.chunk.css",
     "static/js/main.44fce534.chunk.js"
   ]
 }
