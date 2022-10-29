@@ -22,6 +22,7 @@ import { selectModalState, setManyReqModal } from "store/modal/modalSlice";
 import ManyReqModal from "components/view/modal/manyReqModal";
 import { AxiosError } from "axios";
 import DeniedModal from "components/view/modal/deniedModal";
+import SoccerBallImg from "./components/view/app/assets/soccer_ball.svg";
 
 function App() {
   const type = useAppSelector(selectMatchId).type;
@@ -81,7 +82,7 @@ function App() {
       {deniedModalState && <DeniedModal />}
       <header className="header-container">
         <div className="header-logo">
-          <img src="soccer_ball.svg" alt="soccer ball"></img>
+          <img src={SoccerBallImg} alt="soccer ball"></img>
         </div>
         <div className="header-leagues">
           <Link
@@ -162,7 +163,17 @@ function App() {
       deniedModalState ||
       !leaguesIsLoaded ||
       !teamsIsLoaded ? null : (
-        <footer className="footer"></footer>
+        <footer className="footer">
+          <div className="footer-info">
+            <a
+              href="https://eugene-bakulin.github.io/cv/build/"
+              target={"_blank"}
+              rel="noreferrer"
+            >
+              Eugene Bakulin, 2022
+            </a>
+          </div>
+        </footer>
       )}
     </div>
   );

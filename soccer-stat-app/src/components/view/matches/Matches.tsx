@@ -115,8 +115,6 @@ const Matches: React.FC<{
       if (matchesData) {
         setMatchesByDate(matchesData.matches);
         setTotalCount(matchesData.resultSet.count);
-        setResultSetFirst(fromDate);
-        setResultSetLast(endDate);
       }
       dispatch(setMatchesFirstPage());
     } catch (e) {
@@ -176,7 +174,7 @@ const Matches: React.FC<{
           </div>
           <div className="set-button-wrapper">
             <button className="set-date" onClick={setDateClickHandler}>
-              OK
+              показать
             </button>
           </div>
         </div>

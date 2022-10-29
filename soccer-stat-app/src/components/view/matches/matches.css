@@ -57,6 +57,15 @@
   display: inline-block;
   vertical-align: middle;
   cursor: pointer;
+  border: 2px solid whitesmoke;
+  border-radius: 1em;
+  background-color: rgba(0, 0, 0, 0.4);
+  color: whitesmoke;
+}
+.set-date:hover {
+  color: rgb(255, 255, 1);
+  border-color: rgb(255, 255, 1);
+  transition: 0.3s ease;
 }
 .matches-content {
   display: flex;
@@ -85,6 +94,9 @@
 	padding: 5px;
   font-weight: 400;
   color: whitesmoke;
+}
+.matches-table tr:hover {
+  background-color: rgba(255, 255, 1, 0.3);
 }
 .matches-pagination {
   padding: 0.5em;

@@ -1,3 +1,5 @@
+import "dotenv/config";
+
 export const proxy = "https://morning-temple-18735.herokuapp.com/";
 
 export const url =
@@ -5,6 +7,6 @@ export const url =
 
 export const keyConfig = {
   headers: {
-    "X-Auth-Token": "f7e09c42ac024933bc182388642a69b1",
+    "X-Auth-Token": process.env.REACT_APP_API_KEY,
   },
 };

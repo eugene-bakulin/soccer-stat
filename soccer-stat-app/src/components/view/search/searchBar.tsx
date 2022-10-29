@@ -7,6 +7,7 @@ import {
 } from "store/search/searchSlice";
 import { useLocation, useNavigate } from "react-router-dom";
 import "../search/searchBar.css";
+import SearchImg from "../app/assets/search.png";
 
 const SearchBar: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -57,6 +58,7 @@ const SearchBar: React.FC = () => {
               : "поиск по лигам и командам"
           }
           defaultValue={search ? search : userSearchLS ? userSearchLS : ""}
+          autoComplete="off"
         ></input>
         <div className="search-button-container">
           <input
@@ -65,7 +67,7 @@ const SearchBar: React.FC = () => {
             type={"button"}
           ></input>
           <label className="search-button-label" htmlFor="search_button">
-            <img src="search.png" alt="search"></img>
+            <img src={SearchImg} alt="search"></img>
           </label>
         </div>
       </form>
